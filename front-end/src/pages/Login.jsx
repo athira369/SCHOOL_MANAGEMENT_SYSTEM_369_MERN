@@ -1,36 +1,63 @@
 import { useState } from "react";
-
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error,setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    role: "Teacher", // Default role can be 'Teacher', but the user can select from other roles.
+  });
+  const [responseMessage, setResponseMessage] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) =>
-     {
-      setError("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+   
     e.preventDefault();
-    axios.post("http://localhost:5000/login", { email, password })
-      .then((result) => 
-        {
+    axios
+      .post("http://localhost:5000/login", formData) // Backend API for login
+      .then((result) => {
+     
         console.log(result);
-        if (result.data === "Login Successfully") 
-            {
-          navigate("/home");
-        }
-        else {
-          setError("Invalid email or password.");
+        console.log("Response from backend:", result);
+        setResponseMessage(result.data.message);
+        setResponseMessage("Login successful");
+        console.log(formData);
+        // Extract the role from the response data
+        const { role } = result.data;
+        console.log("Role from backend:", role);
+      
+
+        // Navigate based on the user's role
+        if (role === "Admin") {
+          navigate("/admin-dashboard");
+        } else if (role === "Teacher") {
+          navigate("/teacher-dashboard");
+        } else if (role === "Office Staff") {
+          navigate("/office-staff-dashboard");
+        } else if (role === "Librarian") {
+          navigate("/librarian-dashboard");
+        } else {
+          setResponseMessage("Role not recognized");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setResponseMessage("Error: " + (err.response?.data?.message || err.message));
+      });
   };
+
   return (
     <div className="d-flex justify-content-center align-items-center bg-secondary vh-100 vw-100">
       <div className="bg-white p-3 rounded w-50">
         <h2>Login</h2>
-        {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
+          {/* Email */}
           <div className="mb-3">
             <label htmlFor="email">
               <strong>Email</strong>
@@ -38,28 +65,63 @@ const Login = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              autoComplete="off"
               name="email"
+              value={formData.email}
               className="form-control rounded-0"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
+              required
             />
           </div>
+
+          {/* Password */}
           <div className="mb-3">
-            <label htmlFor="Password">
+            <label htmlFor="password">
               <strong>Password</strong>
             </label>
             <input
               type="password"
               placeholder="Enter your password"
-              autoComplete="off"
               name="password"
+              value={formData.password}
               className="form-control rounded-0"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
+              required
             />
           </div>
-          <button type="submit" className="btn btn-success w-100 rounded-0">
+
+          {/* Role Selection */}
+          <div className="mb-3">
+            <label htmlFor="role">
+              <strong>Role</strong>
+            </label>
+            <select
+              name="role"
+              value={formData.role}
+              className="form-control rounded-0"
+              onChange={handleChange}
+            >
+              <option value="Teacher">Teacher</option>
+              <option value="Admin">Admin</option>
+              <option value="Office Staff">Office Staff</option>
+              <option value="Librarian">Librarian</option>
+            </select>
+          </div>
+
+          {/* Submit Button */}
+          <button type="submit" className="btn btn-primary w-100 rounded-0">
             Login
           </button>
+
+          {/* Display Response Message */}
+          {responseMessage && <p>{responseMessage}</p>}
+
+          <p> Do not have an account? </p>
+          <Link
+            to="/register"
+            className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none"
+          >
+            Register
+          </Link>
         </form>
       </div>
     </div>
