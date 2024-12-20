@@ -7,6 +7,8 @@ import {
   FormContainer,
   InputField,
   SubmitButton,
+  SignupWrapper,
+  SignupLink,
 } from "../styles/RegisterStyles";
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -46,19 +48,19 @@ const SignUp = () => {
           password: "",
         });
         // Navigate to respective dashboard
-      if (userRole === "Admin") navigate("/admin");
-      else if (userRole === "Teacher") navigate("/teacher");
-      else if (userRole === "Office Staff") navigate("/office-staff");
-      else if (userRole === "Librarian") navigate("/librarian");
-      else navigate("/login"); // Default fallback
-    })
-    .catch((err) => console.log(err));
-};
-  
+        if (userRole === "Admin") navigate("/admin");
+        else if (userRole === "Teacher") navigate("/teacher");
+        else if (userRole === "Office Staff") navigate("/office-staff");
+        else if (userRole === "Librarian") navigate("/librarian");
+        else navigate("/login"); // Default fallback
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <RegisterContainer>
       <div className="d-flex justify-content-center  vh-100 vw-100">
-        <div className=" bg-white p-3 rounded ">
+        <div className="  p-3 rounded ">
           <h2>Register</h2>
           <FormContainer onSubmit={handleSubmit}>
             <div className="mb-3">
@@ -195,18 +197,12 @@ const SignUp = () => {
               />
             </div>
 
-            <SubmitButton
-              type="submit">
-             
-              SignUp
-            </SubmitButton>
-            <p>Already have an account </p>
-            <Link
-              to="/login"
-              className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none"
-            >
-              LOGIN
-            </Link>
+            <SubmitButton type="submit">SignUp</SubmitButton>
+            <SignupWrapper>
+              <SignupLink href="/login">
+                Already have an account? Login now
+              </SignupLink>
+            </SignupWrapper>
           </FormContainer>
         </div>
       </div>

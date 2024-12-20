@@ -38,11 +38,10 @@ const Login = () => {
         // Extract the role from the response data
         const { role } = result.data;
         console.log("Role from backend:", role);
-        
 
         // Navigate based on the user's role
         if (role === "Admin") {
-          navigate("/admin-dashboard");
+          navigate("/admin/dashboard");
         } else if (role === "Teacher") {
           navigate("/teacher-dashboard");
         } else if (role === "Office Staff") {
@@ -64,77 +63,71 @@ const Login = () => {
   return (
     <LogInContainer>
       <div className="d-flex justify-content-center align-items-center  vh-100 vw-100">
-          <div className="p-3 rounded ">
-            <h2>Login</h2>
-            <FormContainer onSubmit={handleSubmit}>
-              {/* Email */}
-              <div className="mb-3">
-                <label htmlFor="email">
-                  <strong>Email</strong>
-                </label>
-                <InputField
-                  type="email"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={formData.email}
-                  className="form-control rounded-0"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+        <div className="p-3 rounded ">
+          <h2>Login</h2>
+          <FormContainer onSubmit={handleSubmit}>
+            {/* Email */}
+            <div className="mb-3">
+              <label htmlFor="email">
+                <strong>Email</strong>
+              </label>
+              <InputField
+                type="email"
+                placeholder="Enter your email"
+                name="email"
+                value={formData.email}
+                className="form-control rounded-0"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-              {/* Password */}
-              <div className="mb-3">
-                <label htmlFor="password">
-                  <strong>Password</strong>
-                </label>
-                <InputField
-                  type="password"
-                  placeholder="Enter your password"
-                  name="password"
-                  value={formData.password}
-                  className="form-control rounded-0"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            {/* Password */}
+            <div className="mb-3">
+              <label htmlFor="password">
+                <strong>Password</strong>
+              </label>
+              <InputField
+                type="password"
+                placeholder="Enter your password"
+                name="password"
+                value={formData.password}
+                className="form-control rounded-0"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-              {/* Role Selection */}
-              <div className="mb-3">
-                <label htmlFor="role">
-                  <strong>Role</strong>
-                </label>
-                <SelectField
-                  name="role"
-                  value={formData.role}
-                  className="form-control rounded-0"
-                  onChange={handleChange}
-                >
-                  <option value="Teacher">Teacher</option>
-                  <option value="Admin">Admin</option>
-                  <option value="Office Staff">Office Staff</option>
-                  <option value="Librarian">Librarian</option>
-                </SelectField>
-              </div>
-
-              {/* Submit Button */}
-              <SubmitButton
-                type="submit"
-                
+            {/* Role Selection */}
+            <div className="mb-3">
+              <label htmlFor="role">
+                <strong>Role</strong>
+              </label>
+              <SelectField
+                name="role"
+                value={formData.role}
+                className="form-control rounded-0"
+                onChange={handleChange}
               >
-                Login
-              </SubmitButton>
+                <option value="Teacher">Teacher</option>
+                <option value="Admin">Admin</option>
+                <option value="Office Staff">Office Staff</option>
+                <option value="Librarian">Librarian</option>
+              </SelectField>
+            </div>
 
-              {/* Display Response Message */}
-              {responseMessage && <p>{responseMessage}</p>}
-              <SignupWrapper>
-                <SignupLink href="/register">
-                  Not a member? Sign up now
-                </SignupLink>
-              </SignupWrapper>
-              </FormContainer>
-          </div>
-        
+            {/* Submit Button */}
+            <SubmitButton type="submit">Login</SubmitButton>
+
+            {/* Display Response Message */}
+            {responseMessage && <p>{responseMessage}</p>}
+            <SignupWrapper>
+              <SignupLink href="/register">
+                Not a member? Sign up now
+              </SignupLink>
+            </SignupWrapper>
+          </FormContainer>
+        </div>
       </div>
     </LogInContainer>
   );
