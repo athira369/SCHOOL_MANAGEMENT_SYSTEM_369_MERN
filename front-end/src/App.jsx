@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SignUp from './pages/SignUp'
+import SignUp from './components/SignUp'
 import "bootstrap/dist/css/bootstrap.min.css"
 import {BrowserRouter as  Router,Routes,Route} from "react-router-dom"
 import Login from './components/Login'
