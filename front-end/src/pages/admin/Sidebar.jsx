@@ -124,13 +124,13 @@ const Sidebar = () => {
           <SidebarIcon>
             <BsPeople />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/classes">Classes</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/class">Class</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>
             <BsPeople />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/students">Students</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/student">Students</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>

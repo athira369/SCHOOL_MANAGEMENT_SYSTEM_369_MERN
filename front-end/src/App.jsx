@@ -5,6 +5,8 @@ import {BrowserRouter as  Router,Routes,Route} from "react-router-dom"
 import Login from './components/Login'
 import Home from './components/Home'
 
+import  Class from "./pages/admin/Class";
+import Student from './pages/admin/Student'
 
 
 
@@ -22,6 +24,8 @@ const App = () => {
 
 
       <Route path='/admin/dashboard' element={<AdminDashboard/>}></Route>
+      <Route path='/admin/class' element={<Class/>}></Route>
+      <Route path='/admin/student' element={<Student/>}></Route>
    </Routes>
     </Router>
   )

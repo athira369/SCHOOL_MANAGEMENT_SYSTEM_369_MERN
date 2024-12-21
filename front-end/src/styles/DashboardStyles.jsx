@@ -15,8 +15,6 @@ export const Content = styled.div`
 
 export const AdminDashboardContainer = styled.div`
   display: flex;
-
-  display: flex;
   flex-direction: column; /* Stack children vertically */
   align-items: flex-start; /* Align children to the left */
   justify-content: flex-start; /* Align children to the top */
