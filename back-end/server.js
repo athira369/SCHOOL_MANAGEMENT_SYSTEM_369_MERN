@@ -10,14 +10,17 @@ import RegisterRouter from "./router/RegisterRouter.js";
 import LoginRouter from "./router/LoginRouter.js";
 
 
-
-
 import ClassRouter from "./router/ClassRouter.js";
+
+import StudentRouter from "./router/StudentRouter.js"; 
+import TeacherRouter from "./router/TeacherRouter.js";
+import AssignmentRouter from "./router/AssignmentRouter.js";
+import ExamRouter from "./router/ExamRouter.js";
 // Middleware
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin:"http://localhost:5000",
+  
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Allow cookies or authentication headers
   })
@@ -41,8 +44,11 @@ app.use("/login",LoginRouter);
 app.use("/class",ClassRouter);
 app.use("/getall",ClassRouter);
 
+app.use("/students", StudentRouter);
+app.use("/teachers",TeacherRouter);
+app.use("/assignments",AssignmentRouter);
 
-
+app.use("/exams",ExamRouter);
 app.listen(5000, () => {
     console.log ('Server running ')
 

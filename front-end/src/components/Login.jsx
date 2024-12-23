@@ -28,7 +28,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/login", formData) // Backend API for login
+      .post("http://localhost:5000/login/login", formData) // Backend API for login
       .then((result) => {
         console.log(result);
         console.log("Response from backend:", result);

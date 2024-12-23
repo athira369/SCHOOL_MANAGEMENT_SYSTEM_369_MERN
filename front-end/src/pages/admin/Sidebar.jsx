@@ -136,19 +136,19 @@ const Sidebar = () => {
           <SidebarIcon>
             <BsPerson />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/teachers">Teachers</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/teacher">Teachers</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>
             <BsFileText />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/assignments">Assignments</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/assignment">Assignments</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>
             <BsBook/>
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/exams">Exams</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/exam">Exams</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>
@@ -172,7 +172,7 @@ const Sidebar = () => {
           <SidebarIcon>
             <BsChatDots   />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/communication">Announcement</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/announcement">Announcement</StyledLink>}
         </SidebarNavItem>
         <SidebarNavItem $isOpen={isSidebarOpen}>
           <SidebarIcon>
@@ -184,7 +184,7 @@ const Sidebar = () => {
           <SidebarIcon>
             <BsGear  />
           </SidebarIcon>
-          {isSidebarOpen && <StyledLink to="/admin/settingss">Settings & Profile</StyledLink>}
+          {isSidebarOpen && <StyledLink to="/admin/settings">Settings & Profile</StyledLink>}
         </SidebarNavItem>
       </SidebarNav>
       <ToggleButton onClick={toggleSidebar}>
