@@ -98,7 +98,7 @@ const Library = () => {
 
   const fetchLibraryData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/library/books');
+      const response = await axios.get('http://localhost:5000/library/getbooks');
       setLibraryData(response.data);
      
     } catch (err) {
@@ -110,7 +110,7 @@ const Library = () => {
   const handleAddBook = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/library/books', newBook);
+      const response = await axios.post('http://localhost:5000/library/addbook', newBook);
       setLibraryData([...libraryData, response.data]);
       setNewBook({ title: '', author: '', isbn: '', status: '' });
     } catch (err) {
@@ -156,7 +156,7 @@ const Library = () => {
             onChange={(e) => setNewBook({ ...newBook, status: e.target.value })}
             required
           />
-          <Button type="submit">Add Book</Button>
+          <Button type="button" onClick={()=>{handleAddBook()}}>Add Book</Button>
         </Form>
       </FormContainer>
 

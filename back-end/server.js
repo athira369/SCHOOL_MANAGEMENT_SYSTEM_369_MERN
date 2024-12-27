@@ -16,6 +16,9 @@ import StudentRouter from "./router/StudentRouter.js";
 import TeacherRouter from "./router/TeacherRouter.js";
 import AssignmentRouter from "./router/AssignmentRouter.js";
 import ExamRouter from "./router/ExamRouter.js";
+import AnnouncementRouter from "./router/AnnouncementRouter.js";
+import LibraryRouter from "./router/LibraryRouter.js";
+import AttendanceRouter from "./router/AttendanceRouter.js";
 // Middleware
 app.use(bodyParser.json());
 app.use(
@@ -47,9 +50,12 @@ app.use("/getall",ClassRouter);
 app.use("/students", StudentRouter);
 app.use("/teachers",TeacherRouter);
 app.use("/assignments",AssignmentRouter);
-
+app.use("/announcements",AnnouncementRouter);
 app.use("/exams",ExamRouter);
+
+app.use("/library",LibraryRouter);
+app.use("/attendance",AttendanceRouter);
 app.listen(5000, () => {
     console.log ('Server running ')
 
-    })
+    });

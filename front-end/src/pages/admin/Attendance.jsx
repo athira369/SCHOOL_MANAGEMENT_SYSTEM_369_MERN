@@ -10,10 +10,10 @@ const AttendanceContainer = styled.div`
   padding: 20px;
   background-color: #f9f9f9;
   min-height: 100vh;
-  left: 260px; /* Align to the left */
+  left: 260px;
   position: absolute;
-  top: 40px; /* Align to the top */
-   width: 80%;
+  top: 40px;
+  width: 80%;
 `;
 
 const AttendanceHeader = styled.h2`
@@ -81,20 +81,14 @@ const Button = styled.button`
 `;
 
 const Attendance = () => {
-  const [teacherAttendanceData, setTeacherAttendanceData] = useState([]);
-  const [studentAttendanceData, setStudentAttendanceData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]);
   const [error, setError] = useState(null);
 
-  const [newTeacherAttendance, setNewTeacherAttendance] = useState({
+  const [newAttendance, setNewAttendance] = useState({
     name: '',
     date: '',
     status: '',
-  });
-
-  const [newStudentAttendance, setNewStudentAttendance] = useState({
-    name: '',
-    date: '',
-    status: '',
+    role: '',
   });
 
   useEffect(() => {
@@ -103,75 +97,62 @@ const Attendance = () => {
 
   const fetchAttendanceData = async () => {
     try {
-      const [teacherResponse, studentResponse] = await Promise.all([
-        axios.get('http://localhost:5000/teachers/attendance'),
-        axios.get('http://localhost:5000/students/attendance'),
-      ]);
-
-      setTeacherAttendanceData(teacherResponse.data);
-      setStudentAttendanceData(studentResponse.data);
-     
-    }
-     catch (err) {
+      const response = await axios.get('http://localhost:5000/attendance/getAllAttendance');
+      setAttendanceData(response.data);
+    } catch (err) {
       setError('Failed to fetch attendance data. Please try again later.');
-      
-  };
-}
-
-  const handleAddTeacherAttendance = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:5000/teachers/attendance', newTeacherAttendance);
-      setTeacherAttendanceData([...teacherAttendanceData, response.data]);
-      setNewTeacherAttendance({ name: '', date: '', status: '' });
-    } catch (err) {
-      setError('Failed to add teacher attendance. Please try again.');
     }
   };
 
-  const handleAddStudentAttendance = async (e) => {
+  const handleAddAttendance = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/students/attendance', newStudentAttendance);
-      setStudentAttendanceData([...studentAttendanceData, response.data]);
-      setNewStudentAttendance({ name: '', date: '', status: '' });
+      console.log(newAttendance);
+      const response = await axios.post('http://localhost:5000/attendance/', newAttendance);
+      setAttendanceData([...attendanceData, response.data]);
+      setNewAttendance({ name: '', date: '', status: '', role: '' });
     } catch (err) {
-      setError('Failed to add student attendance. Please try again.');
+      setError('Failed to add attendance. Please try again.');
     }
   };
-
-
 
   return (
     <AttendanceContainer>
       <Sidebar />
-      <AttendanceHeader>Teacher Attendance</AttendanceHeader>
+      <AttendanceHeader>Attendance Management</AttendanceHeader>
 
       <FormContainer>
-        <Form onSubmit={handleAddTeacherAttendance}>
-          <h3>Add Teacher Attendance</h3>
+        <Form>
+          <h3>Add Attendance</h3>
           <Input
             type="text"
             placeholder="Name"
-            value={newTeacherAttendance.name}
-            onChange={(e) => setNewTeacherAttendance({ ...newTeacherAttendance, name: e.target.value })}
+            value={newAttendance.name}
+            onChange={(e) => setNewAttendance({ ...newAttendance, name: e.target.value })}
             required
           />
           <Input
             type="date"
             placeholder="Date"
-            value={newTeacherAttendance.date}
-            onChange={(e) => setNewTeacherAttendance({ ...newTeacherAttendance, date: e.target.value })}
+            value={newAttendance.date}
+            onChange={(e) => setNewAttendance({ ...newAttendance, date: e.target.value })}
             required
           />
           <Input
             type="text"
             placeholder="Status (Present/Absent)"
-            value={newTeacherAttendance.status}
-            onChange={(e) => setNewTeacherAttendance({ ...newTeacherAttendance, status: e.target.value })}
+            value={newAttendance.status}
+            onChange={(e) => setNewAttendance({ ...newAttendance, status: e.target.value })}
             required
           />
-          <Button type="submit">Add Attendance</Button>
+          <Input
+            type="text"
+            placeholder="Role (Teacher/Student)"
+            value={newAttendance.role}
+            onChange={(e) => setNewAttendance({ ...newAttendance, role: e.target.value })}
+            required
+          />
+          <Button type="submit" onClick={handleAddAttendance}>Add Attendance</Button>
         </Form>
       </FormContainer>
 
@@ -181,73 +162,22 @@ const Attendance = () => {
             <TableHeader>Name</TableHeader>
             <TableHeader>Date</TableHeader>
             <TableHeader>Status</TableHeader>
+            <TableHeader>Role</TableHeader>
           </TableRow>
         </thead>
         <tbody>
-          {teacherAttendanceData.map((attendance) => (
+          {attendanceData.map((attendance) => (
             <TableRow key={attendance.id}>
               <TableCell>{attendance.name}</TableCell>
               <TableCell>{attendance.date}</TableCell>
               <TableCell>{attendance.status}</TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </AttendanceTable>
-
-      <AttendanceHeader>Student Attendance</AttendanceHeader>
-
-      <FormContainer>
-        <Form onSubmit={handleAddStudentAttendance}>
-          <h3>Add Student Attendance</h3>
-          <Input
-            type="text"
-            placeholder="Name"
-            value={newStudentAttendance.name}
-            onChange={(e) => setNewStudentAttendance({ ...newStudentAttendance, name: e.target.value })}
-            required
-          />
-          <Input
-            type="date"
-            placeholder="Date"
-            value={newStudentAttendance.date}
-            onChange={(e) => setNewStudentAttendance({ ...newStudentAttendance, date: e.target.value })}
-            required
-          />
-          <Input
-            type="text"
-            placeholder="Status (Present/Absent)"
-            value={newStudentAttendance.status}
-            onChange={(e) => setNewStudentAttendance({ ...newStudentAttendance, status: e.target.value })}
-            required
-          />
-          <Button type="submit">Add Attendance</Button>
-        </Form>
-      </FormContainer>
-
-      <AttendanceTable>
-        <thead>
-          <TableRow>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>Date</TableHeader>
-            <TableHeader>Status</TableHeader>
-          </TableRow>
-        </thead>
-        <tbody>
-          {studentAttendanceData.map((attendance) => (
-            <TableRow key={attendance.id}>
-              <TableCell>{attendance.name}</TableCell>
-              <TableCell>{attendance.date}</TableCell>
-              <TableCell>{attendance.status}</TableCell>
+              <TableCell>{attendance.role}</TableCell>
             </TableRow>
           ))}
         </tbody>
       </AttendanceTable>
     </AttendanceContainer>
- 
-        );
-      
-    };
-  
+  );
+};
+
 export default Attendance;
-
-

@@ -1,7 +1,7 @@
 import express from 'express';
 import TeacherController from "../controllers/TeacherController.js";
 
-const router = express.Router();
+const                     router = express.Router();
 
 // Define routes
 router.get('/getteacher', TeacherController.getAllTeachers);

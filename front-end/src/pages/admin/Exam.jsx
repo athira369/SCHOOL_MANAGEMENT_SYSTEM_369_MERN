@@ -14,9 +14,6 @@ import {
   Heading,
 } from '../../styles/ExamStyles.jsx';
 import Sidebar from './Sidebar.jsx';
-
-
-
 const Exam = () => {
   const [exams, setExams] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
