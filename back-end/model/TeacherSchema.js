@@ -23,6 +23,7 @@ const TeacherSchema = new mongoose.Schema(
         'Please enter a valid email address',
       ],
     },
+    
   
 }
 );

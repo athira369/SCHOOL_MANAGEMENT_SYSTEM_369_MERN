@@ -6,15 +6,24 @@ import { Button,
      FormGroup, 
      Label, 
      Container,
+     Content,
+     ProfileHeader,
+     ProfileDetails,
+     ProfileLabel,
+     ProfileInfo,
       Header } from '../../styles/StyledComponents.jsx';
 import Sidebar from './Sidebar';
 const ProfileSettings = () => {
   const [profile, setProfile] = useState({
-    name: '',
+    firstname: '',
+    lastname:'',
     email: '',
     role: '',
-    registrationDate: '',
-  });
+    contactNumber:'',
+    address:'',
+    joiningDate: '',
+   password:'',
+    });
   const [editableProfile, setEditableProfile] = useState({
     name: '',
     email: '',
@@ -35,9 +44,11 @@ const ProfileSettings = () => {
   useEffect(() => {
     const fetchProfileAndSettings = async () => {
       try {
-        const profileResponse = await axios.get('http://localhost:5000/api/profile');
+        const profileResponse = await axios.get('http://localhost:5000/register/getUserDetails/getAdminProfile');
+        console.log(profileResponse.data);
         const settingsResponse = await axios.get('http://localhost:5000/api/settings');
         setProfile(profileResponse.data);
+        console.log(profileResponse.data);
         setEditableProfile(profileResponse.data);
         setSettings(settingsResponse.data.settings);
         setEditableSettings(settingsResponse.data.settings);
@@ -97,7 +108,28 @@ const ProfileSettings = () => {
     <Container>
         <Sidebar/>
       <Header>Profile and Settings</Header>
-
+      <Content>
+        <ProfileHeader>Profile Details</ProfileHeader>
+        <ProfileDetails>
+          <ProfileLabel>firstName:</ProfileLabel>
+          <ProfileInfo>{profile.firstName}</ProfileInfo>
+          <ProfileLabel>lastName:</ProfileLabel>
+          <ProfileInfo>{profile.lastName}</ProfileInfo>
+          <ProfileLabel>Email:</ProfileLabel>
+          <ProfileInfo>{profile.email}</ProfileInfo>
+          <ProfileLabel>ContactNumber:</ProfileLabel>
+          <ProfileInfo>{profile.contactNumber}</ProfileInfo>
+         
+          <ProfileLabel>Role:</ProfileLabel>
+          <ProfileInfo>{profile.role}</ProfileInfo>
+          <ProfileLabel>  joiningDate:</ProfileLabel>
+          <ProfileInfo>{profile.joiningDate}</ProfileInfo>
+          <ProfileLabel>    password:</ProfileLabel>
+          <ProfileInfo>{profile.  password}</ProfileInfo>
+          <ProfileLabel>Qualification:</ProfileLabel>
+          <ProfileInfo>{profile.qualification}</ProfileInfo>
+        </ProfileDetails>
+        </Content>
       {/* Profile Section */}
       <div>
         <h2>Profile Settings</h2>

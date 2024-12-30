@@ -3,7 +3,7 @@ import {Library} from "../model/LibrarySchema.js";
 const LibraryController ={
 // Add a new book
 addBook : async (req, res) => {
-  console.log("ddddddddddddddddddddddddddd");
+  console.log( req.body); // Log the payload you're sending
   try {
     const { title, author, ison,status } = req.body;
 

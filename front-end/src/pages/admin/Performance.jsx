@@ -106,8 +106,8 @@ const Performance = () => {
   const fetchPerformanceData = async () => {
     try {
       const [teacherResponse, studentResponse] = await Promise.all([
-        axios.get('http://localhost:5000/teachers/performance'),
-        axios.get('http://localhost:5000/students/performance'),
+        axios.get('http://localhost:5000/performance/getTeacherPerformance'),
+        axios.get('http://localhost:5000/performance/getStudentPerformance'),
       ]);
 
       setTeacherPerformanceData(teacherResponse.data);
@@ -122,8 +122,9 @@ const Performance = () => {
 
   const handleAddTeacher = async (e) => {
     e.preventDefault();
+    console.log("hi");
     try {
-      const response = await axios.post('http://localhost:5000/teachers/performance', newTeacher);
+      const response = await axios.post('http://localhost:5000/performance/addTeacherPerformance', newTeacher);
       setTeacherPerformanceData([...teacherPerformanceData, response.data]);
       setNewTeacher({ name: '', subject: '', rating: '', remarks: '' });
     } 
@@ -136,8 +137,9 @@ const Performance = () => {
   const handleAddStudent = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/students/performance', newStudent);
+      const response = await axios.post('http://localhost:5000/performance/addStudentPerformance', newStudent);
       setStudentPerformanceData([...studentPerformanceData, response.data]);
+      console.log("response",response.data)
       setNewStudent({ name: '', grade: '', attendance: '' });
     } 
     catch (err) 
@@ -152,9 +154,9 @@ const Performance = () => {
     <PerformanceContainer>
       <Sidebar />
       <PerformanceHeader>Teacher Performance</PerformanceHeader>
-
+     
       <FormContainer>
-        <Form onSubmit={handleAddTeacher}>
+        <Form >
           <h3>Add Teacher Performance</h3>
           <Input
             type="text"
@@ -184,7 +186,7 @@ const Performance = () => {
             value={newTeacher.remarks}
             onChange={(e) => setNewTeacher({ ...newTeacher, remarks: e.target.value })}
           />
-          <Button type="submit">Add Teacher</Button>
+          <Button type="submit"   onClick={handleAddTeacher}>Add Teacher</Button>
         </Form>
       </FormContainer>
 
@@ -212,7 +214,7 @@ const Performance = () => {
       <PerformanceHeader>Student Performance</PerformanceHeader>
 
       <FormContainer>
-        <Form onSubmit={handleAddStudent}>
+        <Form onSubmit>
           <h3>Add Student Performance</h3>
           <Input
             type="text"
@@ -235,7 +237,7 @@ const Performance = () => {
             onChange={(e) => setNewStudent({ ...newStudent, attendance: e.target.value })}
             required
           />
-          <Button type="submit">Add Student</Button>
+          <Button type="submit"  onClick={handleAddStudent}>Add Student</Button>
         </Form>
       </FormContainer>
 

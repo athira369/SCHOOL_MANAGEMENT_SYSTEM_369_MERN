@@ -89,3 +89,25 @@ export const ErrorMessage = styled.div`
   margin-top: 10px;
 `;
 
+
+export const Content = styled.div`
+  flex: 1;
+  padding: 20px;
+`;
+
+export const ProfileHeader = styled.h1`
+  font-size: 24px;
+  margin-bottom: 20px;
+`;
+
+export const ProfileDetails = styled.div`
+  max-width: 400px;
+`;
+
+export const ProfileLabel = styled.label`
+  font-weight: bold;
+`;
+
+export const ProfileInfo = styled.p`
+  margin-bottom: 10px;
+`;

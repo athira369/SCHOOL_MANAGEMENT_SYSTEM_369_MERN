@@ -126,7 +126,7 @@ const Library = () => {
       <LibraryHeader>Library Management</LibraryHeader>
 
       <FormContainer>
-        <Form onSubmit={handleAddBook}>
+        <Form>
           <h3>Add New Book</h3>
           <Input
             type="text"
@@ -156,7 +156,7 @@ const Library = () => {
             onChange={(e) => setNewBook({ ...newBook, status: e.target.value })}
             required
           />
-          <Button type="button" onClick={()=>{handleAddBook()}}>Add Book</Button>
+          <Button type="submit" onClick={handleAddBook}>Add Book</Button>
         </Form>
       </FormContainer>
 

@@ -1,9 +1,103 @@
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Calendar from 'react-calendar'; // Install react-calendar using npm
+import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Sidebar from './Sidebar';
 
+// Styled components
+const Container = styled.div`
+  display: flex;
+  padding: 20px;
+  left: 260px; /* Align to the left */
+  position: absolute;
+  top: 40px; /* Align to the top */
+   width: 80%;
+`;
+
+const SidebarContainer = styled.div`
+  flex: 1;
+  padding-right: 20px;
+`;
+
+const ContentContainer = styled.div`
+  flex: 1;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+`;
+
+const EventForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+
+const TextArea = styled.textarea`
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: ${(props) => (props.danger ? '#ff4d4f' : '#007bff')};
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => (props.danger ? '#e43e3f' : '#0056b3')};
+  }
+`;
+
+const EventList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const EventListItem = styled.li`
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const EventDetails = styled.div`
+  margin-top: 20px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+`;
+
+const NoEventMessage = styled.p`
+  font-size: 1rem;
+  color: #666;
+`;
+
+// Main Component
 const EventCalendar = () => {
   const [events, setEvents] = useState([]);
   const [newEvent, setNewEvent] = useState({ title: '', description: '', date: '', time: '', location: '' });
@@ -11,7 +105,6 @@ const EventCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [eventDetails, setEventDetails] = useState(null);
 
-  // Fetch all events from the server
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -28,7 +121,7 @@ const EventCalendar = () => {
   const handleAddEvent = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/events', newEvent);
+      const response = await axios.post('http://localhost:5000/events/createEvent', newEvent);
       setEvents([...events, response.data]);
       setNewEvent({ title: '', description: '', date: '', time: '', location: '' });
     } catch (error) {
@@ -62,7 +155,6 @@ const EventCalendar = () => {
     }
   };
 
-  // Handle calendar date change and filter events based on the selected date
   const handleDateChange = (date) => {
     setSelectedDate(date);
     const eventsOnSelectedDate = events.filter(
@@ -72,66 +164,67 @@ const EventCalendar = () => {
   };
 
   return (
-    <div style={{ display: 'flex', padding: '20px' }}>
-      <div style={{ flex: 1, paddingRight: '20px' }}>
-        <Sidebar/>
-        <h2>Event Management</h2>
-        <form onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent}>
-          <input
+    <Container>
+      <SidebarContainer>
+        <Sidebar />
+        <SectionTitle>Event Management</SectionTitle>
+        <EventForm onSubmit={editingEvent ? handleUpdateEvent : handleAddEvent}>
+          <Input
             type="text"
             placeholder="Event Title"
             value={newEvent.title}
             onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
             required
           />
-          <textarea
+          <TextArea
             placeholder="Event Description"
             value={newEvent.description}
             onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
             required
           />
-          <input
+          <Input
             type="date"
             value={newEvent.date}
             onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
             required
           />
-          <input
+          <Input
             type="time"
             value={newEvent.time}
             onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
             required
           />
-          <input
+          <Input
             type="text"
             placeholder="Location"
             value={newEvent.location}
             onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
             required
           />
-          <button type="submit">{editingEvent ? 'Update Event' : 'Add Event'}</button>
-        </form>
+          <Button type="submit">{editingEvent ? 'Update Event' : 'Add Event'}</Button>
+          {editingEvent && <Button type="button" danger onClick={() => setEditingEvent(null)}>Cancel</Button>}
+        </EventForm>
 
-        <h3>All Events</h3>
-        <ul>
+        <SectionTitle>All Events</SectionTitle>
+        <EventList>
           {events.map((event) => (
-            <li key={event.id}>
+            <EventListItem key={event.id}>
               <h4>{event.title}</h4>
               <p>{event.description}</p>
               <p>{event.date} at {event.time}</p>
               <p>Location: {event.location}</p>
-              <button onClick={() => handleEditEvent(event)}>Edit</button>
-              <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
-            </li>
+              <Button onClick={() => handleEditEvent(event)}>Edit</Button>
+              <Button danger onClick={() => handleDeleteEvent(event.id)}>Delete</Button>
+            </EventListItem>
           ))}
-        </ul>
-      </div>
+        </EventList>
+      </SidebarContainer>
 
-      <div style={{ flex: 1 }}>
-        <h2>Calendar</h2>
+      <ContentContainer>
+        <SectionTitle>Calendar</SectionTitle>
         <Calendar onChange={handleDateChange} value={selectedDate} />
         {eventDetails && eventDetails.length > 0 ? (
-          <div>
+          <EventDetails>
             <h3>Events on {selectedDate.toDateString()}:</h3>
             <ul>
               {eventDetails.map((event) => (
@@ -143,12 +236,12 @@ const EventCalendar = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </EventDetails>
         ) : (
-          <p>No events on this date</p>
+          <NoEventMessage>No events on this date</NoEventMessage>
         )}
-      </div>
-    </div>
+      </ContentContainer>
+    </Container>
   );
 };
 

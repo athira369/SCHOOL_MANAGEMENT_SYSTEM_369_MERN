@@ -19,6 +19,9 @@ import ExamRouter from "./router/ExamRouter.js";
 import AnnouncementRouter from "./router/AnnouncementRouter.js";
 import LibraryRouter from "./router/LibraryRouter.js";
 import AttendanceRouter from "./router/AttendanceRouter.js";
+import EventRouter from "./router/EventRouter.js";
+import PerformanceRouter from "./router/PerformanceRouter.js";
+import ProfileSettingRouter from "./router/ProfileSettingRouter.js";
 // Middleware
 app.use(bodyParser.json());
 app.use(
@@ -55,6 +58,9 @@ app.use("/exams",ExamRouter);
 
 app.use("/library",LibraryRouter);
 app.use("/attendance",AttendanceRouter);
+app.use("/events",EventRouter);
+app.use("/performance",PerformanceRouter);
+app.use("/getAdminProfile",ProfileSettingRouter);
 app.listen(5000, () => {
     console.log ('Server running ')
 

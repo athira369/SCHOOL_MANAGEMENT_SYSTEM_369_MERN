@@ -3,11 +3,16 @@ import styled from 'styled-components';
 
 export const AnnouncementContainer = styled.div`
   display: flex;
-  padding-left: 240px;
+ left: 260px; /* Align to the left */
+  position: absolute;
+  top: 40px; /* Align to the top */
+  right:20px
+  padding: 20px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    padding-left: 0;
+  
+   
   }
 `;
 

@@ -44,6 +44,69 @@ const RegisterController = {
         res.status(500).json({ message: "An error occurred during registration" });
       });
   },
+
+
+
+
+
+   // GET method to retrieve user details
+   getUserDetails: (req, res) => {
+    const { id } = req.query;
+
+    if (id) {
+      // Find a specific user by ID
+      User.findOne({ Id: id })
+        .then((user) => {
+          if (!user) {
+            return res.status(404).json({ message: "User not found" });
+          }
+
+          res.status(200).json({
+            message: "User retrieved successfully",
+            user: {
+              id: user.Id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              contactNumber: user.contactNumber,
+              address: user.address,
+              joiningDate: user.joiningDate,
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).json({ message: "An error occurred while retrieving the user" });
+        });
+    } else {
+      // Retrieve all users if no ID is provided
+      User.find()
+        .then((users) => {
+          if (users.length === 0) {
+            return res.status(404).json({ message: "No users found" });
+          }
+
+          res.status(200).json({
+            message: "Users retrieved successfully",
+            users: users.map((user) => ({
+              id: user.Id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              role: user.role,
+              contactNumber: user.contactNumber,
+              address: user.address,
+              joiningDate: user.joiningDate,
+            })),
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).json({ message: "An error occurred while retrieving users" });
+        });
+    }
+  },
 };
 
 export default RegisterController;
